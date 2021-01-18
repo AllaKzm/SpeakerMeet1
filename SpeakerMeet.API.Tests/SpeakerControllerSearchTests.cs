@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using Xunit;
 using SpeakerMeet.API.Controllers; //<-- directive to add
 using Microsoft.AspNetCore.Mvc;
@@ -12,7 +13,7 @@ public void ItExists()
  {
 var controller = new SpeakerController();
  }
-  [Fact]
+         [Fact]
     public void ItHasSearch() //Проверяем наличие метода Поиск
         {
             var controller = new SpeakerController();
@@ -26,6 +27,16 @@ var controller = new SpeakerController();
             Assert.NotNull(result);                    //Поиск принес результат?
             Assert.IsType<OkObjectResult>(result);     //Результат ОК?
         }
-}
+        
+        [Fact]
+        public void ItReturnsCollectionOfSpeakers()
+        {
+            var controller = new SpeakerController();
+            var result = controller.Search("Jos") as OkObjectResult;
+            Assert.NotNull(result);
+            Assert.NotNull(result.Value);
+            Assert.IsType<List<Speaker>>(result.Value);
+        }
+    }
 }
 
